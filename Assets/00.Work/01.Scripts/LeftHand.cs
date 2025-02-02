@@ -3,22 +3,44 @@ using UnityEngine;
 
 public class LeftHand : MonoBehaviour
 {
+    [SerializeField] private Transform returnTransform;
     public int endValue;
     public int duration;
-    private Rigidbody rb;
 
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
+    private bool hasClicked = false;
 
-    void Update()
+    private void Update()
     {
-        // ¿ÞÂÊ ÇÚµå ¹ß»ç
-        if (Input.GetMouseButtonDown(0)) // ÁÂÅ¬¸¯
+        if (Input.GetMouseButtonDown(0) && !hasClicked)
         {
-            transform.DOMoveZ(endValue, duration).SetEase(Ease.Linear).SetLoops(2, LoopType.Yoyo);
+            hasClicked = true;
+            Vector3 targetPosition = transform.position + transform.forward * endValue;
+            transform.DOMove(targetPosition, duration)
+                .SetEase(Ease.Linear)
+                .OnComplete(() =>
+                {
+                    transform.DOMove(returnTransform.position, duration) 
+                        .SetEase(Ease.Linear)
+                        .OnComplete(() => hasClicked = false);
+                });
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Grabbable"))
+        {
+            other.transform.SetParent(transform);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Grabbable"))
+        {
+            other.transform.SetParent(null);
+        }
+    }
+
 
 }
