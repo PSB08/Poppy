@@ -16,7 +16,6 @@ public class CameraMove : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked; // 마우스 커서를 화면 중앙에 고정
     }
 
     void Update()

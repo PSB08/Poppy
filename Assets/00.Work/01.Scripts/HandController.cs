@@ -5,22 +5,21 @@ using UnityEngine;
 
 public class HandController : MonoBehaviour
 {
-    public Transform grabPack; // 씬에 있는 그랩팩 오브젝트
-    public float throwForce = 10f; // 날리는 힘
-    public float returnSpeed = 5f; // 돌아오는 속도
-    public float maxDistance = 10f; // 최대 날아가는 거리
+    public Transform grabPack;
+    public float throwForce = 10f;
+    public float returnSpeed = 5f; 
+    public float maxDistance = 10f;
 
-    private Vector3 initialPosition; // 그랩팩의 초기 위치
-    private bool isThrown = false; // 그랩팩이 날아가고 있는지 여부
-    private bool isReturning = false; // 그랩팩이 돌아오고 있는지 여부
+    public Vector3 initialPosition; 
+    private bool isThrown = false; 
+    private bool isReturning = false;
 
-    void Start()
+    private void Start()
     {
-        // 그랩팩의 초기 위치 저장
         initialPosition = grabPack.position;
     }
 
-    void Update()
+    private void Update()
     {
         // 그랩팩 발사
         if (Input.GetMouseButtonDown(0) && !isThrown) // 마우스 왼쪽 클릭
@@ -48,7 +47,7 @@ public class HandController : MonoBehaviour
         }
     }
 
-    void ThrowGrabPack()
+    private void ThrowGrabPack()
     {
         isThrown = true;
 
@@ -60,7 +59,7 @@ public class HandController : MonoBehaviour
         StartCoroutine(CheckDistance());
     }
 
-    IEnumerator CheckDistance()
+    private IEnumerator CheckDistance()
     {
         while (isThrown)
         {
@@ -74,13 +73,11 @@ public class HandController : MonoBehaviour
         }
     }
 
-    void ReturnGrabPack()
+    private void ReturnGrabPack()
     {
         isReturning = true;
 
-        // 그랩팩의 물리 효과 비활성화
         grabPack.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        grabPack.GetComponent<Rigidbody>().isKinematic = true;
     }
 
 }
