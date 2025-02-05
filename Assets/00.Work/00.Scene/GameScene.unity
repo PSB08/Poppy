@@ -1097,10 +1097,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c70fea29b8387a4bb9e51275a8a966e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchForce: 10
+  grabPack: {fileID: 3106243955427097433}
+  throwForce: 10
   returnSpeed: 5
-  leftGrabPackPrefab: {fileID: 1204295589708330988, guid: 792ed022566a8ce47b562c2ac7b301fe, type: 3}
-  rightGrabPackPrefab: {fileID: 2714669362583962412, guid: bfdbc9ab087ef084687a955ba5a65c9f, type: 3}
+  maxDistance: 10
 --- !u!1 &1963373695
 GameObject:
   m_ObjectHideFlags: 0

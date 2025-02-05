@@ -48,7 +48,7 @@ public class CameraMove : MonoBehaviour
             velocity.y = -2f; // 지면에 닿았을 때 초기화
         }
 
-        if (Input.GetButtonDown("Jump") && controller.isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity); // 점프
         }
