@@ -1647,9 +1647,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46b58c1a7aa53ce4ea89be7e2e5f8806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  returnTransform: {fileID: 3106243955427097433}
-  endValue: 5
-  duration: 1
+  hand: {fileID: 3106243955427097433}
+  firePoint: {fileID: 4814309652278831846}
+  speed: 0.5
+  maxDistance: 10
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!4 &7530662805197625031
 Transform:
   m_ObjectHideFlags: 0
@@ -1682,7 +1686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &8081930921544553778
 MeshFilter:
   m_ObjectHideFlags: 0
