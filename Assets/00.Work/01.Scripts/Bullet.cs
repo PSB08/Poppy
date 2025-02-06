@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    //ÃÑ¾Ë
     private void Start()
     {
         StartCoroutine(DeleteBullet());
