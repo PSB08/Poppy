@@ -1331,7 +1331,7 @@ GameObject:
   - component: {fileID: 2125878872}
   - component: {fileID: 2125878871}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Enemy1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
