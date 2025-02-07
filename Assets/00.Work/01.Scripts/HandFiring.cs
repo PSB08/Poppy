@@ -1,10 +1,15 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HandController : MonoBehaviour
+public class HandFiring : MonoBehaviour
 {
+    [SerializeField] private int mouseIndex;
+    [Space(10)]
+    [Header("Value")]
+    [Space(10)]
     public Transform player;
     public Transform hand;
     public float grabDistance = 5f;
@@ -18,7 +23,7 @@ public class HandController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(mouseIndex))
         {
             startOffset = hand.position - player.position;
             Vector3 targetPosition = player.position + player.forward * grabDistance;

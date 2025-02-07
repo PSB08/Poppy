@@ -7,9 +7,6 @@ using UnityEngine.XR;
 public class RightHand : MonoBehaviour
 {
     public Transform[] hands;
-    public GameObject bulletPrefab;
-    public Transform bulletSpawnPoint;
-    public float bulletSpeed = 20f; 
 
     private int currentHandIndex = 0;
     private Transform activeHand;
@@ -24,13 +21,6 @@ public class RightHand : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeHand(0);
         if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeHand(1);
         if (Input.GetKeyDown(KeyCode.Alpha3)) ChangeHand(2);
-    }
-
-    private void FireBullet()
-    {
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletPrefab.transform.rotation);
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.velocity = bulletSpawnPoint.forward * bulletSpeed;
     }
 
     private void ChangeHand(int index)

@@ -1,6 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
+[RequireComponent(typeof(HandFiring))]
 public class LeftHand : MonoBehaviour
 {
     public Transform hand;
