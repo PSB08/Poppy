@@ -1770,6 +1770,7 @@ GameObject:
   - component: {fileID: 5348358249030178369}
   - component: {fileID: 7190632313660272988}
   - component: {fileID: 7413017671627275225}
+  - component: {fileID: 7413017671627275227}
   - component: {fileID: 7413017671627275226}
   m_Layer: 0
   m_Name: Visual
@@ -1883,17 +1884,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46b58c1a7aa53ce4ea89be7e2e5f8806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hand: {fileID: 972145800}
+  grabDistance: 5
+  grabbableLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  throwForce: 5
+  disableColliderTime: 1
+--- !u!114 &7413017671627275227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6141316884346183953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c70fea29b8387a4bb9e51275a8a966e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   player: {fileID: 4814309652278831846}
   hand: {fileID: 972145800}
   grabDistance: 5
   moveDuration: 0.5
   returnDelay: 0.2
   returnDuration: 0.5
-  grabbableLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  throwForce: 5
-  disableColliderTime: 1
 --- !u!4 &7530662805197625031
 Transform:
   m_ObjectHideFlags: 0

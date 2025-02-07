@@ -3,35 +3,17 @@ using UnityEngine;
 
 public class LeftHand : MonoBehaviour
 {
-    public Transform player;
     public Transform hand;
     public float grabDistance = 5f;
-    public float moveDuration = 0.5f;
-    public float returnDelay = 0.2f;
-    public float returnDuration = 0.5f;
     public LayerMask grabbableLayer;
     public float throwForce = 5f;
     public float disableColliderTime = 0.2f;
 
     private bool hasGrabbed = false;
-    private bool isReturning = false;
     private GameObject grabbedObject = null;
-    private Vector3 startOffset;
-    private Tween moveTween;
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !hasGrabbed)
-        {
-            hasGrabbed = true;
-            startOffset = hand.position - player.position;
-            Vector3 targetPosition = player.position + player.forward * grabDistance;
-
-            moveTween = hand.DOMove(targetPosition, moveDuration)
-                .SetEase(Ease.OutQuad)
-                .OnComplete(() => DOVirtual.DelayedCall(returnDelay, StartReturningHand));
-        }
-
         if (Input.GetKeyDown(KeyCode.E) && grabbedObject != null)
         {
             ReleaseObject();
@@ -42,22 +24,8 @@ public class LeftHand : MonoBehaviour
             grabbedObject.transform.position = hand.position;
         }
 
-        if (isReturning)
-        {
-            Vector3 returnPosition = player.position + startOffset * 0.2f;
-            hand.position = Vector3.Lerp(hand.position, returnPosition, 1);
-        }
     }
 
-    private void StartReturningHand()
-    {
-        isReturning = true;
-        DOVirtual.DelayedCall(returnDuration, () =>
-        {
-            isReturning = false;
-            hasGrabbed = false;
-        });
-    }
 
     private void OnTriggerEnter(Collider other)
     {
