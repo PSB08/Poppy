@@ -1982,7 +1982,7 @@ GameObject:
   - component: {fileID: 7413017671627275227}
   - component: {fileID: 7413017671627275226}
   m_Layer: 0
-  m_Name: Visual
+  m_Name: Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

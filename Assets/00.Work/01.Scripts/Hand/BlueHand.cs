@@ -2,7 +2,7 @@ using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(HandFiring))]
-public class LeftHand : MonoBehaviour
+public class BlueHand : MonoBehaviour
 {
     public Transform hand;
     public float grabDistance = 5f;
