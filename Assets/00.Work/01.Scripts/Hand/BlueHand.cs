@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(HandFiring))]
 public class BlueHand : MonoBehaviour
 {
+    //손을 발사한 뒤 물건과 닿으면 그랩하고 끌고옴
+    //E 키를 누르면 던질 수 있음
     public Transform hand;
     public float grabDistance = 5f;
     public LayerMask grabbableLayer;
