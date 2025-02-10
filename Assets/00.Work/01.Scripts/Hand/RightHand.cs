@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class RightHand : MonoBehaviour
 {
+    //오브젝트를 넣고
     public Transform[] hands;
 
     private int currentHandIndex = 0;
@@ -9,11 +10,13 @@ public class RightHand : MonoBehaviour
 
     private void Start()
     {
+        //시작하면 0번으로 변경
         ChangeHand(0);
     }
 
     private void Update()
     {
+        //1 누르면 배열의 0번으로 2 누르면 배열의 1번, 3 누르면 배열의 2번으로 
         if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeHand(0);
         if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeHand(1);
         if (Input.GetKeyDown(KeyCode.Alpha3)) ChangeHand(2);
