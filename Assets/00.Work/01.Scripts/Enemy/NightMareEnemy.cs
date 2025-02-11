@@ -1,14 +1,16 @@
 using DG.Tweening;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 public class NightMareEnemy : MonoBehaviour
 {
     [SerializeField] private Transform player;
     [SerializeField] private MonoBehaviour mouseLookScript;
-    [SerializeField] private float speed = 3f;
+    [SerializeField] private NavMeshAgent agent;
     [SerializeField] private float stopDistance = 2f;
+    [SerializeField] private float bulletDetectionRange = 3f;
     [SerializeField] private float retreatDistance = 1.5f; // 총에 맞았을 때 뒤로 가는 거리
     [SerializeField] private float retreatDuration = 0.3f; // 후퇴 시간
 
@@ -16,18 +18,23 @@ public class NightMareEnemy : MonoBehaviour
 
     private bool isRetreating = false;
 
+    private void Start()
+    {
+        if (agent == null)
+            agent = GetComponent<NavMeshAgent>(); // NavMeshAgent 가져오기
+    }
 
     void Update()
     {
         if (player == null || isCutsceneActive || isRetreating) return;
 
+        DetectNearbyBullets();
+
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
         if (distanceToPlayer > stopDistance)
         {
-            // 플레이어를 추적
-            Vector3 direction = (player.position - transform.position).normalized;
-            transform.position += direction * speed * Time.deltaTime;
+            agent.SetDestination(player.position);
         }
         else
         {
@@ -36,13 +43,20 @@ public class NightMareEnemy : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void DetectNearbyBullets()
     {
-        if (other.CompareTag("Bullet")) // 총알과 충돌하면
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, bulletDetectionRange); // 범위 내 오브젝트 감지
+
+        foreach (Collider hitCollider in hitColliders)
         {
-            RetreatFromPlayer(); // 뒤로 밀려남
+            if (hitCollider.CompareTag("Bullet")) // 감지된 오브젝트가 총알인지 확인
+            {
+                RetreatFromPlayer(); // 후퇴 실행
+                break; // 한 번 감지하면 더 이상 확인할 필요 없음
+            }
         }
     }
+
     private void RetreatFromPlayer()
     {
         if (player == null) return;
@@ -53,8 +67,12 @@ public class NightMareEnemy : MonoBehaviour
         Vector3 retreatDirection = (transform.position - player.position).normalized;
         Vector3 retreatPosition = transform.position + retreatDirection * retreatDistance;
 
-        // DOTween을 사용하여 부드럽게 후퇴
-        transform.DOMove(retreatPosition, retreatDuration).OnComplete(() =>
+        // Y축 이동을 완전히 막기 위해 Y값을 유지한 상태로 새로운 벡터 생성
+        retreatPosition = new Vector3(retreatPosition.x, transform.position.y, retreatPosition.z);
+
+        // DOTween을 사용해 XZ 좌표만 이동 (Y값은 그대로 유지)
+        transform.DOMoveX(retreatPosition.x, retreatDuration);
+        transform.DOMoveZ(retreatPosition.z, retreatDuration).OnComplete(() =>
         {
             isRetreating = false; // 후퇴 완료 후 다시 움직일 수 있도록 설정
         });
