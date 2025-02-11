@@ -90,7 +90,7 @@ public class NightMareEnemy : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
+ 
         Vector3 targetPosition = transform.position - transform.forward * -3f; // 적의 위치 근처로 카메라 이동
         Camera.main.transform.DOMove(targetPosition, 0.1f); // 카메라 이동
 
