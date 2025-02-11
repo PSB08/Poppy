@@ -3264,10 +3264,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 198563903}
+  mouseLookScript: {fileID: 198563904}
   speed: 3
   stopDistance: 2
-  retreatDistance: 3
-  retreatSpeed: 5
 --- !u!54 &2125878875
 Rigidbody:
   m_ObjectHideFlags: 0
