@@ -9,12 +9,17 @@ public class NightMareEnemy : MonoBehaviour
     [SerializeField] private MonoBehaviour mouseLookScript;
     [SerializeField] private float speed = 3f;
     [SerializeField] private float stopDistance = 2f;
+    [SerializeField] private float retreatDistance = 1.5f; // 총에 맞았을 때 뒤로 가는 거리
+    [SerializeField] private float retreatDuration = 0.3f; // 후퇴 시간
 
     private bool isCutsceneActive = false;
 
+    private bool isRetreating = false;
+
+
     void Update()
     {
-        if (player == null || isCutsceneActive) return;
+        if (player == null || isCutsceneActive || isRetreating) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
@@ -30,6 +35,31 @@ public class NightMareEnemy : MonoBehaviour
             StartCoroutine(KillPlayerCutscene());
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bullet")) // 총알과 충돌하면
+        {
+            RetreatFromPlayer(); // 뒤로 밀려남
+        }
+    }
+    private void RetreatFromPlayer()
+    {
+        if (player == null) return;
+
+        isRetreating = true; // 후퇴 상태 활성화
+
+        // 플레이어 반대 방향으로 이동
+        Vector3 retreatDirection = (transform.position - player.position).normalized;
+        Vector3 retreatPosition = transform.position + retreatDirection * retreatDistance;
+
+        // DOTween을 사용하여 부드럽게 후퇴
+        transform.DOMove(retreatPosition, retreatDuration).OnComplete(() =>
+        {
+            isRetreating = false; // 후퇴 완료 후 다시 움직일 수 있도록 설정
+        });
+    }
+
 
     private IEnumerator KillPlayerCutscene()
     {
