@@ -91,11 +91,13 @@ public class NightMareEnemy : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        // 2. 적을 플레이어(카메라) 중앙으로 이동
-        Vector3 targetPosition = player.position + player.forward * 1.5f; // 카메라 앞 1.5m
-        transform.DOMove(targetPosition, 0.1f);
+        Vector3 targetPosition = transform.position - transform.forward * -3f; // 적의 위치 근처로 카메라 이동
+        Camera.main.transform.DOMove(targetPosition, 0.1f); // 카메라 이동
 
-        yield return new WaitForSeconds(0.1f); // 적이 중앙으로 이동하는 시간
+        // 카메라가 적을 바라보도록 회전
+        Camera.main.transform.DOLookAt(transform.position, 0.3f);
+
+        yield return new WaitForSeconds(0.3f); // 카메라 이동과 회전하는 시간
 
         // 3. 적을 흔들기
         transform.DOShakePosition(1.5f, 0.2f, 10, 90, false, true);
