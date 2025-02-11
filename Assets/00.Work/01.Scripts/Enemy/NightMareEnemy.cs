@@ -26,6 +26,8 @@ public class NightMareEnemy : MonoBehaviour
 
     void Update()
     {
+        transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
+
         if (player == null || isCutsceneActive || isRetreating) return;
 
         DetectNearbyBullets();
