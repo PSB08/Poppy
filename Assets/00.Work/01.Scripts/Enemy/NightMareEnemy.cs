@@ -40,6 +40,9 @@ public class NightMareEnemy : MonoBehaviour
             player.GetComponent<CharacterController>().enabled = false;
         if (mouseLookScript != null) mouseLookScript.enabled = false;
 
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         // 2. 적을 플레이어(카메라) 중앙으로 이동
         Vector3 targetPosition = player.position + player.forward * 1.5f; // 카메라 앞 1.5m
         transform.DOMove(targetPosition, 0.1f);
