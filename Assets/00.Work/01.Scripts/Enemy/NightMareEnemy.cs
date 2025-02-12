@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class NightMareEnemy : MonoBehaviour
 {
     [SerializeField] private Transform player;
+    [SerializeField] private GameObject handObj;
     [SerializeField] private MonoBehaviour mouseLookScript;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private float stopDistance = 2f;
@@ -84,6 +85,8 @@ public class NightMareEnemy : MonoBehaviour
     private IEnumerator KillPlayerCutscene()
     {
         isCutsceneActive = true; // 컷신 활성화
+
+        handObj.SetActive(false);
 
         // 1. 플레이어 조작 비활성화
         if (player.GetComponent<CharacterController>())
