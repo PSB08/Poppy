@@ -97,10 +97,10 @@ public class NightMareEnemy : MonoBehaviour
         Cursor.visible = true;
  
         Vector3 targetPosition = transform.position - transform.forward * -3f; // 적의 위치 근처로 카메라 이동
-        Camera.main.transform.DOMove(targetPosition, 0.1f); // 카메라 이동
+        yield return Camera.main.transform.DOMove(targetPosition, 0.1f).WaitForCompletion(); // 카메라 이동
 
         // 카메라가 적을 바라보도록 회전
-        Camera.main.transform.DOLookAt(transform.position, 0.3f);
+        yield return Camera.main.transform.DOLookAt(transform.position, 0.3f).WaitForCompletion();
 
         yield return new WaitForSeconds(0.3f); // 카메라 이동과 회전하는 시간
 
