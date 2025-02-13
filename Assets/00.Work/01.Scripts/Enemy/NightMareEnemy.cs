@@ -6,23 +6,26 @@ using UnityEngine.SceneManagement;
 
 public class NightMareEnemy : MonoBehaviour
 {
+    #region Value
     [SerializeField] private Transform player;
     [SerializeField] private GameObject handObj;
     [SerializeField] private MonoBehaviour mouseLookScript;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private float stopDistance = 2f;
     [SerializeField] private float bulletDetectionRange = 3f;
-    [SerializeField] private float retreatDistance = 1.5f; // 총에 맞았을 때 뒤로 가는 거리
-    [SerializeField] private float retreatDuration = 0.3f; // 후퇴 시간
+    [SerializeField] private float retreatDistance = 1.5f;
+    [SerializeField] private float retreatDuration = 0.3f;
+    [SerializeField] private float chaseStartDistance = 10f; // 추적 시작 거리
 
     private bool isCutsceneActive = false;
-
     private bool isRetreating = false;
+    private bool isChasing = false; // 추적 여부
+    #endregion
 
     private void Start()
     {
         if (agent == null)
-            agent = GetComponent<NavMeshAgent>(); // NavMeshAgent 가져오기
+            agent = GetComponent<NavMeshAgent>();
     }
 
     void Update()
@@ -35,27 +38,32 @@ public class NightMareEnemy : MonoBehaviour
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (distanceToPlayer > stopDistance)
+        if (distanceToPlayer <= chaseStartDistance) isChasing = true;
+        if (distanceToPlayer > chaseStartDistance + 2f) isChasing = false; // 일정 거리 벗어나면 멈춤
+
+        if (isChasing)
         {
-            agent.SetDestination(player.position);
-        }
-        else
-        {
-            // 적이 일정 거리 안으로 들어오면 컷신 실행
-            StartCoroutine(KillPlayerCutscene());
+            if (distanceToPlayer > stopDistance)
+            {
+                agent.SetDestination(player.position);
+            }
+            else
+            {
+                StartCoroutine(KillPlayerCutscene());
+            }
         }
     }
 
     private void DetectNearbyBullets()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, bulletDetectionRange); // 범위 내 오브젝트 감지
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, bulletDetectionRange); 
 
         foreach (Collider hitCollider in hitColliders)
         {
-            if (hitCollider.CompareTag("Bullet")) // 감지된 오브젝트가 총알인지 확인
+            if (hitCollider.CompareTag("Bullet")) 
             {
-                RetreatFromPlayer(); // 후퇴 실행
-                break; // 한 번 감지하면 더 이상 확인할 필요 없음
+                RetreatFromPlayer(); 
+                break; 
             }
         }
     }
