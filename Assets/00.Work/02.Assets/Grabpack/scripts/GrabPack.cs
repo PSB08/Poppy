@@ -6,12 +6,14 @@ public class GrabPack : MonoBehaviour
     public float grabDistance = 2f;
     public float grabSpeed = 5f;
     public LayerMask grabbableLayer;
+    public LayerMask scannerlayer;
+
     public Transform grabPackHandLeft;
     public Transform grabPackHandRight;
 
     private GameObject grabbedObjectLeft;
     private GameObject grabbedObjectRight;
-    private bool isGrabbingLeft = false;
+    public bool isGrabbingLeft = false;
     private bool isGrabbingRight = false;
     private bool isRetractingLeft = false;
     private bool isRetractingRight = false;
@@ -36,6 +38,9 @@ public class GrabPack : MonoBehaviour
     public AudioClip retract;
 
     public AudioSource audio;
+
+    public bool scannerright;
+    public bool scannerleft;
 
     private void Start()
     {
@@ -93,17 +98,19 @@ public class GrabPack : MonoBehaviour
             }
         }
 
-        if (isGrabbingLeft && Input.GetMouseButton(0))
+        if (isGrabbingLeft && !scannerleft && Input.GetMouseButton(0))
         {
             PullObject(grabPackHandLeft, HandLocationLeft, grabbedObjectLeft);
             UpdateLineRenderer(lineRendererLeft, LINEPOS, grabPackHandLeft.position);
         }
 
-        if (isGrabbingRight && Input.GetMouseButton(1))
+        if (isGrabbingRight && !scannerright && Input.GetMouseButton(1))
         {
             PullObject(grabPackHandRight, HandLocationRight, grabbedObjectRight);
             UpdateLineRenderer(lineRendererRight, LINEPOS2, grabPackHandRight.position);
         }
+
+
     }
 
     private void LateUpdate()
@@ -151,11 +158,32 @@ public class GrabPack : MonoBehaviour
                 originalParentLeft = grabPackHandLeft.parent;
                 grabPackHandLeft.SetParent(null);
 
-
                 audio.PlayOneShot(launch, 2.0f);
+
+                scannerleft = false;
             }
         }
+        else if (Physics.Raycast(ray, out hit, grabDistance, scannerlayer))
+        {
+            Transform hitTransform = hit.collider.transform;
+
+            grabbedObjectLeft = hit.collider.gameObject;
+            HandLocationLeft.transform.position = hit.point;
+            HandLocationLeft.transform.SetParent(hitTransform);
+
+            isGrabbingLeft = true;
+
+            // Unparent left grab pack hand from its current parent
+            originalParentLeft = grabPackHandLeft.parent;
+            grabPackHandLeft.SetParent(null);
+
+            audio.PlayOneShot(launch, 2.0f);
+
+            scannerleft = true;
+
+        }
     }
+
 
     private void TryGrabObjectRight()
     {
@@ -177,11 +205,32 @@ public class GrabPack : MonoBehaviour
                 originalParentRight = grabPackHandRight.parent;
                 grabPackHandRight.SetParent(null);
 
-
                 audio.PlayOneShot(launch, 2.0f);
+
+                scannerright = false;
             }
         }
+        else if (Physics.Raycast(ray, out hit, grabDistance, scannerlayer))
+        {
+            Transform hitTransform = hit.collider.transform;
+
+            grabbedObjectRight = hit.collider.gameObject;
+            HandLocationRight.transform.position = hit.point;
+            HandLocationRight.transform.SetParent(hitTransform);
+
+            isGrabbingRight = true;
+
+            // Unparent right grab pack hand from its current parent
+            originalParentRight = grabPackHandRight.parent;
+            grabPackHandRight.SetParent(null);
+
+            audio.PlayOneShot(launch, 2.0f);
+
+            scannerright = true;
+        }
     }
+
+
 
     private bool IsObstructed(Vector3 point)
     {
@@ -240,6 +289,7 @@ public class GrabPack : MonoBehaviour
 
     private void PullObject(Transform grabPackHand, GameObject handLocation, GameObject grabbedObject)
     {
+
         Vector3 grabPackPosition = transform.position;
         Vector3 objectPosition = grabbedObject.transform.position;
         Vector3 direction = (grabPackPosition - objectPosition).normalized;
@@ -249,6 +299,7 @@ public class GrabPack : MonoBehaviour
         grabPackHand.rotation = PlayerCamera.transform.rotation;
 
         grabbedObject.transform.position = newPosition;
+
     }
 
     private IEnumerator RetractHandLeft()
@@ -264,6 +315,7 @@ public class GrabPack : MonoBehaviour
         }
 
         isRetractingLeft = false;
+
 
         ReleaseGrabbedObjectLeft();
     }

@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - Wall
   - Hand
+  - cube
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - 
   - Grabbable
   - Wall
-  - 
+  - scanner
   - 
   - 
   - 

@@ -17,6 +17,7 @@ public class bluehandscanner : MonoBehaviour
     {
         if (other.gameObject.name == targetName)
         {
+            Debug.Log(1);
             isInsideTrigger = true;
             self.enabled = true;
             self.SetBool("scan", true);
